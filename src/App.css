@@ -1,0 +1,75 @@
+.App {
+  text-align: center;
+}
+
+.App {
+  margin: 20px auto;
+  width: 100%;
+}
+
+
+.NavBar {
+  width: 100%;
+  font-family: Quicksand;
+  background-color: brown;
+}
+
+.NavBar ul {
+  padding: 0;
+  background-color: blueviolet;
+}
+
+.NavBar ul li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.NavBar ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 100;
+}
+
+.NavBar ul li a:hover,
+.NavBar ul li a:active {
+  color: tomato;
+}
+
+.NavBar ul li a.active {
+  color: tomato;
+}
+
+
+.grid-container{
+  display: grid;
+  grid-gap:5px;
+  grid-template-columns: 20% 20% 60% ;
+  background-color: cadetblue;
+  padding: 10px;
+}
+.grid-item{
+  display: block;
+  height: 200px;
+  background-color: coral;
+  border: 1px solid green;
+  font-size: 20px;
+  text-align: center;
+}
+
+.grid-item2{
+  display: block;
+  height: 200px;
+  background-color: coral;
+  border: 1px solid green;
+  font-size: 20px;
+  text-align: center;
+}
+
+.grid-item3{
+  display: block;
+  height: 200px;
+  background-color: coral;
+  border: 1px solid green;
+  font-size: 20px;
+  text-align: center;
+}

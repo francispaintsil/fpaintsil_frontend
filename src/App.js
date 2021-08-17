@@ -1,26 +1,75 @@
+
 import React, { Component } from 'react'
 import './App.css';
-import Nav from './components/Nav';
-import { BrowserRouter, Route } from 'react-router-dom'
-import Home from './containers/Home';
-import About from './containers/About';
+const axios = require('axios')
+
 
 class App extends Component {
 
-  render() {
-    return (
-      <BrowserRouter>
+  state = {
+      users: [],
+      isLoading: true,
+      errors: null
+    };
 
-        <div className="App">
-          <Nav />
-          <Route path="/" exact component={Home} />
-          <Route path="/about" component={About} />
-        </div>
+    // Now we're going to make a request for data using axios
 
-      </BrowserRouter>
-    )
+    getUsers() {
+      axios.get("http://localhost/trainees/:id").then(response => response.data.results.map(user => ({
+            id:`${user.tranee_id}`,
+            firstname: `${user.trainee_firstname}`,
+            lastname: `${user.trainee_lastname}`,
+            email: `${user.trainee_email}`,
+            skill: `${user.trainee_skill}`,
+            specialty: `${user.trainee_specialty}`,
+            experience: `${user.traineeexperience}`,
+            background: `${user.traineeback_detail}`
+          }))
+        ).then(users => {
+          this.setState({
+            users,
+            isLoading: false
+          });
+        })
+        .catch(error => this.setState({ error, isLoading: false }));
+    }
+  
+    componentDidMount() {
+      this.getUsers();
+    }
+  
+    render() {
+      const { isLoading, users } = this.state;
+      return (
+        <React.Fragment>
+          <h2>Amalitech Trainers Portfolio</h2>
+          <div>
+            {!isLoading ? (
+              users.map(user => {
+                const { id,firstname, lastname, email, skill, specialty, experience, background} = user;
+                return (
+                  <div key={id}>
+                    <p>{firstname}</p>
+                  
+          <div>Name: {firstname} {lastname}</div>
+          <div>Email: {email}</div>
+          <div>Skill: {skill}</div>
+          <div>Specialty: {specialty}</div>
+          <div>Experience: {experience}</div>
+          <div>Background: {background}</div>
+        
+                    <hr />
+                  </div>
+                );
+              })
+            ) : (
+              <p>Loading...</p>
+            )}
+          </div>
+        </React.Fragment>
+      );
+    }
+    
   }
-
-}
-
+ 
 export default App;

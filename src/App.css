@@ -73,3 +73,20 @@
   font-size: 20px;
   text-align: center;
 }
+
+.traineelist {
+  border: thin solid blue;
+  padding: 2rem;
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.traineelisttext {
+  position: relative;
+  top: -47px;
+  background: white;
+  padding: 7px;
+  width: 106px;
+  color: blue;
+}

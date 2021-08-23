@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaPen, FaTrash } from "react-icons/fa";
 import Collapsible from "react-collapsible";
 import Axios from "axios";
+import { setTraineeDataAction } from "../../Actions/setTraineeDataAction";
+import { useDispatch } from "react-redux";
 
 export default function TraineeProfile(props) {
-  const {
+  const dispatch = useDispatch()
+  const {trainee_id,
     trainee_firstname,
     trainee_lastname,
     trainee_email,
@@ -13,6 +16,12 @@ export default function TraineeProfile(props) {
     traineeback_detail,
   } = props.userData;
   let animage = "";
+  const [fname, setFname] = useState(trainee_firstname)
+  const [lname, setLname] = useState(trainee_lastname)
+  const [email, setEmail] = useState(trainee_email)
+  const [skill, setSkill] = useState(trainee_skill)
+  const [speciality, setSpeciality] = useState(trainee_specialty)
+  const [detail, setDetail] = useState(traineeback_detail)
   const rnd = Math.floor(Math.random() * 4) + 1;
   switch (rnd) {
     case 1:
@@ -33,23 +42,39 @@ export default function TraineeProfile(props) {
   }
 
   function handleUpdate() {
-    Axios.put("http://localhost:5000/trainee/update",{
-
+    Axios.put(`http://localhost:5000/trainee/${trainee_id}`,{
+      fname,
+      lname,
+      email,
+      skill,
+      speciality,
+      detail
     }).then(res=>{
-
+      if(res.data){
+        console.log(res.data)
+       props.showUser();      
+      }
     }).catch(err=>{
-
+      console.log(err)
     })
+    // alert('update')
   }
 
   function handleDelete() {
-    Axios.delete("http://localhost:5000/trainee/update",{
-        
+    Axios.delete(`http://localhost:5000/trainee/delete/${trainee_id}`,{
+     params:{
+       uid: trainee_id
+     }
     }).then(res=>{
-
+        console.log(res.data)
+        dispatch(setTraineeDataAction(res.data));
     }).catch(err=>{
         
     })
+  }
+
+  function submitForm(e){
+    e.preventDefault();
   }
 
   return (
@@ -77,28 +102,46 @@ export default function TraineeProfile(props) {
         </div>
       </div>
       <div className="trainee-profile-right">
-        <form action="" method="post">
+        <form onSubmit={submitForm} action="" method="post">
           <div className="form-item">
-            <label>Name </label>
+            <label>Last name </label>
             <input
               type="text"
-              value={`${trainee_firstname} ${trainee_lastname}`}
+              value={lname} onChange={e=>{
+                setLname(e.target.value)
+             }} 
+            />
+          </div>
+
+          <div className="form-item">
+            <label>First name </label>
+            <input
+              type="text"
+              value={fname} onChange={e=>{
+                setFname(e.target.value)
+             }} 
             />
           </div>
 
           <div className="form-item">
             <label>Email </label>
-            <input type="text" value={`${trainee_email}`} />
+            <input type="text" value={email} onChange={e=>{
+               setEmail(e.target.value)
+            }} />
           </div>
 
           <div className="form-item">
             <label>Skill </label>
-            <input type="text" value={`${trainee_skill}`} />
+            <input type="text" value={skill} onChange={e=>{
+               setSkill(e.target.value)
+            }} />
           </div>
 
           <div className="form-item">
             <label>Speciality </label>
-            <input type="text" value={`${trainee_specialty}`} />
+            <input type="text" value={speciality} onChange={e=>{
+               setSpeciality(e.target.value)
+            }} />
           </div>
           <div>
             <Collapsible
@@ -112,7 +155,7 @@ export default function TraineeProfile(props) {
                   overflowY: "auto",
                 }}
               >
-                {`${traineeback_detail}`.substring(0, 300)}
+                {`${detail}`.substring(0, 300)}
               </p>
             </Collapsible>
           </div>

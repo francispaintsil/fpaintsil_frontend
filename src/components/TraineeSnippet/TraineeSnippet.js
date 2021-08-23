@@ -6,8 +6,6 @@ import {
   FaCogs,
   FaEnvelope,
   FaEye,
-  FaPen,
-  FaTrash,
   FaUser,
 } from "react-icons/fa";
 import ReactModal from "react-modal";
@@ -120,7 +118,7 @@ function ModeUser(props) {
       <button onClick={props.showUser }>
         <FaArrowLeft style={{ color: "slategray" }} />
       </button>
-      <TraineeProfile userData={props.userData} />
+      <TraineeProfile showUser = {props.showUser} userData={props.userData} />
     </ReactModal>
   );
 }
